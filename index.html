@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Especial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Iconos para el reproductor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== FONDO GALAXIA GENERAL ===== */
+        body {
+            background: radial-gradient(circle at 50% 20%, #3d1a5c 0%, #1a0533 60%, #0a0015 100%);
+            font-family: 'Courier Prime', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 20px 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 30% 60%, #ffe680, transparent),
+                radial-gradient(1px 1px at 50% 10%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 70% 80%, #7fffd4, transparent),
+                radial-gradient(1px 1px at 90% 40%, #fff, transparent),
+                radial-gradient(2px 2px at 15% 90%, #ffe680, transparent),
+                radial-gradient(1px 1px at 45% 45%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 85% 15%, #7fffd4, transparent);
+            animation: parpadeo 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes parpadeo {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* ===== BANNER SUPERIOR ===== */
+        .banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(112, 83, 131, 0.8) 0%, rgba(61, 26, 92, 0.9) 100%),
+                        radial-gradient(circle at 80% 20%, #7fffd4 0%, transparent 30%);
+            background-size: cover;
+            background-image: url('6.jpg');
+            border-bottom: 3px solid #bca8d4;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        /* ===== CAJA PRINCIPAL (La carta) ===== */
+        .contenedor {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 650px;
+            background-color: #e8e0f0; 
+            border: 12px solid #705383; 
+            box-shadow: 20px 20px 0px #5c3e6e, 0 0 40px rgba(160, 80, 255, 0.3); 
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        /* ===== COLLAGE DE FOTOS ===== */
+        .collage {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            margin-top: -100px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foto-principal {
+            width: 180px;
+            height: 180px;
+            background-color: #33213f; 
+            border: 5px solid #bca8d4;
+            transform: rotate(-4deg);
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .polaroid {
+            position: absolute;
+            background-color: #fff;
+            padding: 6px 6px 25px 6px;
+            box-shadow: 4px 6px 15px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+            z-index: 2;
+            width: 100px; 
+            height: 120px;
+        }
+
+        .polaroid::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 40px;
+            height: 15px;
+            background-color: rgba(160, 80, 255, 0.6);
+            border-left: 1px dashed rgba(255,255,255,0.5);
+            border-right: 1px dashed rgba(255,255,255,0.5);
+            z-index: 5;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 10;
+        }
+
+        .p1 { top: -30px; left: 5%; transform: rotate(-12deg); width: 90px; height: 110px; }
+        .p2 { top: -15px; right: 20%; transform: rotate(8deg); width: 100px; height: 125px; }
+        .p3 { bottom: -40px; left: 22%; transform: rotate(6deg); z-index: 3; width: 110px; height: 130px; }
+        .p4 { bottom: -50px; right: 15%; transform: rotate(-10deg); width: 85px; height: 105px; }
+
+        /* ===== CAJA DE REPRODUCCIÓN (Debajo del collage) ===== */
+        .caja-reproduccion {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(30, 10, 50, 0.85);
+            border: 1px solid rgba(188, 168, 212, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(160, 80, 255, 0.15);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Foto Grande Centrada */
+        .portada {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            background-color: #33213f;
+            border: 3px solid #bca8d4;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6), 0 0 20px rgba(160, 80, 255, 0.4);
+            margin-bottom: 20px;
+            background-image: url('7.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Info de la canción */
+        .info-cancion {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .info-cancion h3 {
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .info-cancion p {
+            color: #bca8d4;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+        }
+
+        /* Barra de progreso */
+        .progreso-contenedor {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: #bca8d4;
+            font-family: sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .barra-fondo {
+            flex-grow: 1;
+            height: 5px;
+            background-color: #4a365c;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .barra-relleno {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #a060ff, #7fffd4);
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .barra-relleno::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 0 8px #a060ff;
+        }
+
+        .barra-fondo:hover .barra-relleno::after {
+            opacity: 1;
+        }
+
+        /* Controles */
+        .controles-reproductor {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #bca8d4;
+        }
+
+        .btn-control {
+            background: none;
+            border: none;
+            color: #bca8d4;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .btn-control:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .btn-play-grande {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a060ff, #7b3fe4);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(160, 80, 255, 0.8);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-play-grande:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(160, 80, 255, 1);
+        }
+
+        /* ===== TEXTO DE LA CARTA (ESTILO ANTIGUO) ===== */
+        .texto-carta {
+            text-align: left; 
+            font-family: 'Times New Roman', Times, serif; 
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #3b2a2a;
+            max-width: 90%;
+            margin: 20px auto;
+            white-space: pre-wrap; 
+            text-shadow: none; 
+        }
+
+        /* Para resaltar sin colores raros, solo negrita o cursiva clásica */
+        .letra-cursiva {
+            font-style: italic;
+        }
+
+        .letra-negrita {
+            font-weight: bold;
+            color: #1a0f0f; /* Un tono más oscuro para que resalte */
+        }
+
+        /* ===== SECCIÓN FINAL: FOTO + FIRMA ===== */
+        .cierre-carta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 90%; /* Igual al ancho de tu texto */
+            margin: 30px auto 10px auto;
+            gap: 20px; /* Espacio entre la foto y la firma */
+        }
+
+        .foto-firma {
+            width: 100%; /* 👈 Ocupa todo el ancho disponible de la carta */
+            max-width: 400px; /* No se estira de más en PC */
+            height: auto; /* Mantiene la proporción original de tu foto */
+            border-radius: 8px;
+            border: 4px solid #fff; /* Marco blanco tipo foto física */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1); /* Sombra bonita */
+            transform: rotate(-1deg); /* Un giro súper sutil */
+            transition: transform 0.3s;
+        }
+
+        .foto-firma:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .firma-texto {
+            font-size: 1.4rem;
+            color: #3b2a2a;
+            align-self: flex-end; /* Firma pegada a la derecha */
+            padding-right: 10px;
+        }
+
+        audio { display: none; }
+
+                /* ===== RESPONSIVE XIAOMI (ARREGLADO) ===== */
+        @media (max-width: 600px) {
+            body {
+                padding: 0 10px 20px 10px; /* Menos margen a los lados */
+            }
+
+            .contenedor {
+                padding: 30px 15px 20px 15px;
+                border-width: 8px;
+                box-shadow: 8px 8px 0px #5c3e6e, 0 0 20px rgba(160, 80, 255, 0.3);
+            }
+            
+            .collage { 
+                height: 150px; 
+                margin-top: -80px; 
+                margin-bottom: 10px; /* Pegamos el collage al reproductor */
+            }
+            
+            .foto-principal { width: 120px; height: 120px; }
+            .p1 { width: 60px; height: 75px; left: 0%; top: -20px;}
+            .p2 { width: 70px; height: 85px; right: 0%; top: -10px;}
+            .p3 { width: 75px; height: 90px; left: 10%; bottom: -30px; }
+            .p4 { width: 60px; height: 75px; right: 5%; bottom: -35px; }
+
+            .caja-reproduccion { 
+                padding: 20px 15px; 
+                width: 95%; /* No llega hasta los bordes */
+                margin-bottom: 15px; /* 👈 ACÁ ESTÁ LA MAGIA: reducimos el espacio de abajo */
+            }
+            
+            .portada { 
+                width: 160px; 
+                height: 160px; 
+                margin-bottom: 10px; /* Foto más pegada al texto "Nada" */
+            }
+            
+            .info-cancion {
+                margin-bottom: 10px; /* Texto "Nada" más pegado a la barra */
+            }
+
+            .texto-carta { 
+                font-size: 0.95rem; 
+                max-width: 100%;
+                margin-top: 10px; 
+            }
+
+            .cierre-carta {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .foto-firma {
+                max-width: 100%; /* En celular ocupa el 100% del ancho de la carta, pero no más */
+                border-width: 3px;
+            }
+            .firma-texto {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="banner"></div>
+
+    <div class="contenedor">
+        
+        <!-- COLLAGE DE FOTOS -->
+        <div class="collage">
+            <div class="foto-principal">
+                <img src="5.gif" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="polaroid p1">
+                <img src="4.jpg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="polaroid p2">
+                <img src="2.jpg" style="width:100%; height:100%; object-fit:cover;">
+
+            </div>
+            <div class="polaroid p3">
+                <img src="1.jpg" style="width:100%; height:100%; object-fit:cover;">
+
+            </div>
+            <div class="polaroid p4">
+                <img src="3.jpg" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+        </div>
+
+        <!-- CAJA DE REPRODUCCIÓN (Centrada y Grande) -->
+        <div class="caja-reproduccion">
+            <!-- Foto Principal Grande -->
+            <div class="portada"></div>
+            
+            <!-- Info Canción -->
+            <div class="info-cancion">
+                <h3>No. 1 Party Anthem</h3>
+                <p>Arctic Monkeys</p>
+            </div>
+
+            <!-- Barra de Progreso -->
+            <div class="progreso-contenedor">
+                <span id="tiempo-actual">0:00</span>
+                <div class="barra-fondo" onclick="saltar(event)">
+                    <div class="barra-relleno" id="barra-relleno"></div>
+                </div>
+                <span id="tiempo-total">0:00</span>
+            </div>
+
+            <!-- Controles -->
+            <div class="controles-reproductor">
+                <button class="btn-control"><i class="fas fa-backward"></i></button>
+                <button class="btn-play-grande" id="btn-play" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                <button class="btn-control"><i class="fas fa-forward"></i></button>
+            </div>
+
+            <!-- Audio Oculto -->
+            <audio id="musica" src="cancion.mp3" loop></audio>
+        </div>
+
+        <!-- TEXTO DE LA CARTA (EXACTO) -->
+                <!-- TEXTO DE LA CARTA (DECORADO) -->
+        <div class="texto-carta">
+No se muy bien como empezar, pero si se que quiero contarte lo que siento.
+Primero empezar por el dia que nos conocimos, enserio que nos conocimos porque tú lo hayas empezado. Fue complicado al principio por lo reservada que era, por mi desconfianza en volver a confiar de nuevo en alguien virtual.
+Pero, de a poco me has hecho florecer como nueva, como un rosal en primavera, que aun se protege con sus espinas pero cuando puedas, cortamelas por favor.
+Al conocernos, si, hemos tenido de ahi nuestros choques pero sigo sin saber como nos seguimos eligiendo cada dia.
+Cada conversacion, cada charla, cada salto de confianza que nos seguimos dando cada dia.
+Aprendemos un poco más del otro, cada día algo nuevo descubrimos ¿no te parece?
+La verdad es que no hay mucho que pensar, pero gracias por estos dias maravillosos, aveces sensaciones nuevas para mi, sensaciones que no pense volver a sentir otra vez pero de la forma linda.
+Extrañaba perderme en los ojos de alguien, esta semana mi pensamiento más frecuente has sido tu. No miento cuando digo "ojala estuvieras aqui", constantemente. 
+Me mezclo mucho en mis propias palabras, pero por ti quiero armarlas. Aun tengo actitudes de mierda, pero aun me sigues queriendo comprender o eso pienso porque te estas quedando, estas leyendo esto, desde mis torpes palabras.
+Y por ello, esperame, que prometo cambiarlas de a poco si eso significa tratarte un poco mejor de lo poco que lo hago.
+Me gusta tu compañia, me gusta tu humor, me gusta tu forma de hablar conmigo, me gusta jugar contigo, me gusta saber que me soportas, me gusta cuidar de ti, me gusta recordarte lo mucho que te quiero, me gusta tu risa, me gusta de todo un poco de ti.
+¿Enserio le ando escribiendo una carta a alguien menor que yo? En cierta parte no me importa a este punto los gastos, el tiempo y dedicacion que te estoy dando cada día, sabes? Si, ya me has ganado. Totalmente.
+Aun tengo inseguridades, aun me cuesta expresarme, aun me cuesta aceptar tus lindos comentarios y que en el fondo me gustan solo que aun no se me da del todo decirlo bien osea regresartelo, aun tengo miedo, pero a este punto no se que somos podrias aceptar el riesgo <span class="cursiva-especial">¿de superar este miedo?</span> y darte aquella oportunidad que tanto anhelas?
+Aun asi soy firma con mi decision, lleguemos a febrero, lo ansio. Ansio que por favor seas tu, haste este punto. Te quiero, y te amo. Y te aprecio demasiado en mi vida.
+Busco las palabras para escribirte esto de forma sincera, porque sino no lo habria hecho. Te juro que si llegamos a febrero, te apreciare mas de lo que ya hago contigo en mi vida. 
+
+Fuera de eso, aqui un regalito de mi parte aún no terminamos el mes pero para que lo tengas si? Te amo, gracias por todo. Y el dia de mañana sigue a mi lado, porque no pienso soltarte.
+
+(Te mando el codigo por msjjj que no pude armar la cartita que tenia pensada programar perdonaaaa).
+
+        <div class="cierre-carta">
+            <img src="8.jpg" alt="Foto especial" class="foto-firma">
+            <div class="firma-texto">
+                <span class="letra-cursiva">Con cariño, Zami.</span>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DEL REPRODUCTOR -->
+    <script>
+        const audio = document.getElementById('musica');
+        const btnPlay = document.getElementById('btn-play');
+        const barraRelleno = document.getElementById('barra-relleno');
+        const barraFondo = document.querySelector('.barra-fondo');
+        const tiempoActual = document.getElementById('tiempo-actual');
+        const tiempoTotal = document.getElementById('tiempo-total');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                btnPlay.innerHTML = '<i class="fas fa-pause"></i>'; 
+            } else {
+                audio.pause();
+                btnPlay.innerHTML = '<i class="fas fa-play"></i>'; 
+            }
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return min + ":" + (sec < 10 ? "0" : "") + sec;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            tiempoTotal.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                const porcentaje = (audio.currentTime / audio.duration) * 100;
+                barraRelleno.style.width = porcentaje + '%';
+                tiempoActual.textContent = formatTime(audio.currentTime);
+            }
+        });
+
+        function saltar(e) {
+            const rect = barraFondo.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const nuevoTiempo = (clickX / barraFondo.offsetWidth) * audio.duration;
+            audio.currentTime = nuevoTiempo;
+        }
+
+        audio.addEventListener('ended', () => {
+            btnPlay.innerHTML = '<i class="fas fa-play"></i>';
+            barraRelleno.style.width = '0%';
+            tiempoActual.textContent = '0:00';
+        });
+    </script>
+
+</body>
+</html>
